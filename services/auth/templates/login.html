@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ERP Giriş</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>ERP Giriş</h1>
+      {% if error %}
+      <div class="error">{{ error }}</div>
+      {% endif %}
+      <form method="post" action="/login">
+        <label for="username">Kullanıcı Adı</label>
+        <input id="username" name="username" type="text" required />
+
+        <label for="password">Şifre</label>
+        <input id="password" name="password" type="password" required />
+
+        <button type="submit">Giriş Yap</button>
+      </form>
+    </div>
+  </body>
+  </html>
+
