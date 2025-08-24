@@ -9,6 +9,8 @@ __pycache__/
 
 # Logs
 *.log
+*.pid
+*.db
 
 # Editor/OS
 .DS_Store
@@ -19,4 +21,3 @@ __pycache__/
 dist/
 build/
 *.spec
-
