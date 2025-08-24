@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kullanıcı Yönetimi</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <style>
+      table { width:100%; border-collapse: collapse; margin-top: 16px; }
+      th, td { border-bottom: 1px solid #2a3443; padding: 8px; text-align: left; }
+      th { color: #9ca3af; font-weight: 600; }
+      .row-actions { display:flex; gap:8px; }
+      .form-inline { display:flex; gap:12px; align-items:center; margin-top: 16px; }
+      .error { margin: 8px 0 0; padding: 10px 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.5); color: #fecaca; border-radius: 10px; font-size: 14px; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Kullanıcı Yönetimi</h1>
+      <a class="link" href="/dashboard">Dashboard</a>
+
+      {% if error %}
+      <div class="error">{{ error }}</div>
+      {% endif %}
+
+      <form class="form-inline" method="post" action="/users/create">
+        <label>Kullanıcı:</label>
+        <input name="username" placeholder="kullanıcı adı" required />
+        <label>Şifre:</label>
+        <input name="password" type="password" placeholder="şifre" required />
+        <label>Aktif</label>
+        <input name="is_active" type="checkbox" checked />
+        <button type="submit">Ekle</button>
+      </form>
+
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Kullanıcı Adı</th><th>Aktif</th><th>Oluşturma</th><th>İşlemler</th></tr>
+        </thead>
+        <tbody>
+          {% for u in users %}
+          <tr>
+            <td>{{ u.id }}</td>
+            <td>{{ u.username }}</td>
+            <td>{{ 'Evet' if u.is_active else 'Hayır' }}</td>
+            <td>{{ u.created_at }}</td>
+            <td>
+              <form class="row-actions" method="post" action="/users/toggle/{{ u.id }}">
+                <button type="submit">{{ 'Pasifleştir' if u.is_active else 'Aktifleştir' }}</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </body>
+  </html>
+
