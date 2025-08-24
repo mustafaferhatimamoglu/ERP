@@ -30,7 +30,7 @@ pip install --upgrade pip
 pip install fastapi "uvicorn[standard]" SQLAlchemy asyncpg "passlib[bcrypt]" jinja2 pydantic-settings paho-mqtt python-multipart
 export PYTHONPATH=.
 cp .env.example .env  # düzenleyin
-uvicorn services.auth.app:app --reload --host 0.0.0.0 --port 8000
+python -m uvicorn services.auth.app:app --reload --host 0.0.0.0 --port 8080
 ```
 
 ### Poetry ile
@@ -40,14 +40,16 @@ poetry install
 cd ../..
 export PYTHONPATH=.
 cp .env.example .env  # düzenleyin
-poetry run uvicorn services.auth.app:app --reload --host 0.0.0.0 --port 8000
+poetry run uvicorn services.auth.app:app --reload --host 0.0.0.0 --port 8080
 ```
 
-Ardından `http://localhost:8000/login` adresine gidin. Giriş başarılı olduğunda MQTT'ye `auth/login` topiğinde event yayınlanır.
+Ardından `http://localhost:8080/login` adresine gidin. Giriş başarılı olduğunda MQTT'ye `auth/login` topiğinde event yayınlanır.
 
 ## Veritabanı
 - Servis ilk açılışta tabloyu oluşturur.
-- `.env` ile sağlanan `ADMIN_USERNAME` ve `ADMIN_PASSWORD` varsa, yoksa yeni bir admin kullanıcısı açılır.
+- Admin kullanıcıyı ayarlama seçenekleri:
+  - ENV ile: `.env` dosyasına `ADMIN_USERNAME` ve `ADMIN_PASSWORD` yazıp servisi başlatın (ilk çalıştırmada oluşur).
+  - Yönetim scripti ile: `python -m services.auth.manage create-admin --username admin --password 'YeniSifre'`
 
 ## MQTT
 - Broker erişilemiyorsa servis yine de çalışır; eventler sessizce atlanır.
@@ -69,4 +71,3 @@ Ardından `http://localhost:8000/login` adresine gidin. Giriş başarılı oldu�
   - `pip install pyinstaller`
   - `pyinstaller -F -n ERPLoginClient clients/login_app/main.py`
   - Çıktı: `dist/ERPLoginClient.exe`
-
